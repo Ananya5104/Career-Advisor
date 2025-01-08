@@ -1,0 +1,18 @@
+{% block content %}
+    <h2>Available Jobs</h2>
+    <form method="get">
+        <input type="text" name="query" placeholder="Job title" value="{{ request.GET.query }}">
+        <input type="text" name="location" placeholder="Location" value="{{ request.GET.location }}">
+        <button type="submit">Search</button>
+    </form>
+    <ul>
+        {% for job in jobs %}
+            <li>
+                <h3>{{ job.title }}</h3>
+                <p>{{ job.company }} - {{ job.location }}</p>
+                <p>{{ job.description }}</p>
+                <p>Category: {{ job.skills_required }}</p>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

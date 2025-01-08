@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .forms import ResumeUploadForm
 
 def upload_resume(request):
@@ -6,7 +6,7 @@ def upload_resume(request):
         form = ResumeUploadForm(request.POST, request.FILES, instance=request.user)
         if form.is_valid():
             form.save()
-            return render(request, 'upload_success.html')
+            return redirect('job_recommendations')
     else:
-        form = ResumeUploadForm()
+        form = ResumeUploadForm(instance=request.user)
     return render(request, 'upload_resume.html', {'form': form})

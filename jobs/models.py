@@ -5,7 +5,7 @@ class Job(models.Model):
     description = models.TextField()
     company = models.CharField(max_length=255)
     location = models.CharField(max_length=255, blank=True, null=True)
-    skills_required = models.TextField()  # Comma-separated skills
+    skills_required = models.TextField()  
     posted_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

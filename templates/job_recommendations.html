@@ -1,14 +1,65 @@
-{% extends 'base.html' %}
-{% block content %}
-    <h2>Recommended Jobs</h2>
-    <ul>
-        {% for job, score in recommendations %}
-            <li>
-                <h3>{{ job.title }}</h3>
-                <p>{{ job.company }} - {{ job.location }}</p>
-                <p>{{ job.description }}</p>
-                <p>Matching Score: {{ score|floatformat:2 }}</p>
-            </li>
+<!-- job_recommendations.html -->
+<div class="recommendations-container">
+    <!-- Search Form -->
+    <form class="search-form" method="GET">
+        <div class="form-group">
+            <input type="text" name="query" value="{{ search_query }}" placeholder="Job Title">
+            <input type="text" name="location" value="{{ location }}" placeholder="Location">
+            <button type="submit">Search</button>
+        </div>
+    </form>
+
+    <!-- Skills Summary -->
+    <div class="skills-summary">
+        <h3>Your Skills Profile</h3>
+        <div class="skills-list">
+            <p><strong>Technical Skills:</strong> {{ user_skills.technical_skills|join:", " }}</p>
+            <p><strong>Soft Skills:</strong> {{ user_skills.soft_skills|join:", " }}</p>
+        </div>
+    </div>
+
+    <!-- Results Summary -->
+    <h2>{{ total_jobs_matched }} Matching Jobs Found</h2>
+
+    <!-- Job Listings -->
+    <div class="job-listings">
+        {% for rec in recommendations %}
+        <div class="job-card">
+            <div class="job-header">
+                <h3>{{ rec.job.title }}</h3>
+                <span class="match-score">{{ rec.match_score }}% Match</span>
+            </div>
+            <div class="job-details">
+                <p class="company">{{ rec.job.company }}</p>
+                <p class="location">{{ rec.job.location }}</p>
+            </div>
+            <div class="skills-match">
+                {% if rec.matching_skills %}
+                <p class="matching-skills">
+                    <strong>Matching Skills:</strong> 
+                    {{ rec.matching_skills|join:", " }}
+                </p>
+                {% endif %}
+                {% if rec.missing_skills %}
+                <p class="missing-skills">
+                    <strong>Skills to Develop:</strong> 
+                    {{ rec.missing_skills|join:", " }}
+                </p>
+                {% endif %}
+            </div>
+            <div class="job-description">
+                {{ rec.job.description|truncatewords:50 }}
+            </div>
+        </div>
+        {% empty %}
+        <div class="no-results">
+            <p>No matching jobs found. Try adjusting your search criteria.</p>
+        </div>
         {% endfor %}
-    </ul>
-{% endblock %}
+    </div>
+</div>
+<div>
+    <h2> All job listings</h2>
+    
+     <a href="{% url 'job_list' %}">View All Job Listings</a>
+</div>

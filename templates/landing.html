@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Career Advisor</title>
+</head>
+<body>
+    <header>
+        <h1>Welcome to Career Advisor</h1>
+        
+    <p>New here? <a href="{% url 'signup' %}">Sign up</a></p>
+    <p>Already have an account? <a href="{% url 'login' %}">Log in</a></p>
+    </header>
+    {% block content %}{% endblock %}
+</body>
+</html>
